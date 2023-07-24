@@ -10,6 +10,7 @@
 #define DATA 10       /* Pin 10 - connect to serial data load pin (DATA) */
 #define RESET 11      /* Pin 11 - connect to reset pin (RST). */
 #define AD9850_FREQ  125000000 /* 125MHz */
+#define TUNING_VAL   4294967295 /* AD9850 Tuning word - used to trim freq out */
  
 #define pulseHigh(pin) {digitalWrite(pin, HIGH); digitalWrite(pin, LOW); }
 
@@ -50,7 +51,7 @@ void transfer_byte(byte data)
 
  // frequency calc from datasheet page 8 = <sys clock> * <frequency tuning word>/2^32
 void sendFrequency(double frequency) {
-  int32_t freq = frequency * 4294967295/AD9850_FREQ;
+  int32_t freq = frequency * TUNING_VAL/AD9850_FREQ;
   for (int b=0; b<4; b++, freq>>=8) {
     transfer_byte(freq & 0xFF);
   }
