@@ -25,6 +25,7 @@ void setup() {
   pinMode(W_CLK, OUTPUT);
   pinMode(DATA, OUTPUT);
   pinMode(RESET, OUTPUT);
+  pinMode(LED_BUILTIN, OUTPUT);
 
   // Reset the AD9850
   Serial.println("AD9850 Startup");
@@ -37,8 +38,10 @@ void setup() {
 
 void loop() {
   Serial.println("Send AD9850 Command");
+  digitalWrite(LED_BUILTIN, HIGH);
   sendFrequency(137500);
   delay (1000);
+  digitalWrite(LED_BUILTIN, LOW);
   sendFrequency(137500);  // freq
   delay(1000);
 }
