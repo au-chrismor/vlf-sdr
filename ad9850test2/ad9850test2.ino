@@ -41,10 +41,9 @@ void setup() {
 
 void loop() {
   Serial.println("Send AD9850 Command");
-  digitalWrite(LED_BUILTIN, HIGH);
+  digitalWrite(LED_BUILTIN, !digitalRead(RADIO_TX));
   sendFrequency(137500);
   delay (1000);
-  digitalWrite(LED_BUILTIN, LOW);
   sendFrequency(137500);  // freq
   delay(1000);
 }
