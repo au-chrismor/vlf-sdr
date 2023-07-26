@@ -18,12 +18,16 @@
  * Standard Arduino Statup
  */
 void setup() {
- // configure arduino data pins for output
+  Serial.begin(9600);
+  // configure arduino data pins for output
+  Serial.println("Hardware Setup");
   pinMode(FQ_UD, OUTPUT);
   pinMode(W_CLK, OUTPUT);
   pinMode(DATA, OUTPUT);
   pinMode(RESET, OUTPUT);
-   
+
+  // Reset the AD9850
+  Serial.println("AD9850 Startup");
   pulseHigh(RESET);
   pulseHigh(W_CLK);
   pulseHigh(FQ_UD);  /*
@@ -32,6 +36,7 @@ void setup() {
 }
 
 void loop() {
+  Serial.println("Send AD9850 Command");
   sendFrequency(137500);
   delay (1000);
   sendFrequency(137500);  // freq
@@ -58,4 +63,3 @@ void sendFrequency(double frequency) {
   transfer_byte(0x000);   // Final control byte, all 0 for 9850 chip
   pulseHigh(FQ_UD);  // Done!  Should see output
 }
-
