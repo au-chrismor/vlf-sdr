@@ -62,7 +62,7 @@ void transfer_byte(byte data)
 
  // frequency calc from datasheet page 8 = <sys clock> * <frequency tuning word>/2^32
 void sendFrequency(double frequency) {
-  if(digitalRead(RADIO_TX) == LOW)
+  if(digitalRead(RADIO_TX) == HIGH)
     frequency += IF_FREQ;
   int32_t freq = frequency * TUNING_VAL/AD9850_FREQ;
   for (int b=0; b<4; b++, freq>>=8) {
