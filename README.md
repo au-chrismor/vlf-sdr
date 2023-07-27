@@ -18,6 +18,10 @@ A simple test generator.  Once running, you will see a 137.5KHz signal on the ou
 
 A better test generator.  Uses an additional I/O line to change the freqency by 455KHz.  Why?  Ultimately this will be a transmitter and superhet receiver combo, so we need to adjust the receive frequency.
 
+### vfotest1
+
+Now we are starting to look more like a complete system.  This test adds a rotary encoder to act like the "dial" on a traditional radio.  Existing functionality from the earlier tests is retained.
+
 ## Assembling your own radio
 
 Watch this space!
