@@ -1,3 +1,4 @@
+
 /* 
  * This sketch allows simple testing of the module and it's connections under the control
  * of a rotary encoder.
@@ -9,9 +10,11 @@
 
 #include "vfotest1.h"
 #include <Encoder.h>
+#include <LiquidCrystal_I2C.h>
 
 long oldFrequency  = 0;
 Encoder vfoDial(ENC_CW, ENC_ACW);
+LiquidCrystal_I2C lcd(LCD_ADDR, LCD_COLS, LCD_ROWS);
 
 /*
  * Standard Arduino Statup
@@ -34,9 +37,12 @@ void setup() {
   pulseHigh(FQ_UD);  /*
                       * this pulse enables serial mode - Datasheet page 12 figure 10
                       */
+  lcd.init();
+  lcd.backlight();
 }
 
 void loop() {
+  /* This is a problem for now.  Need to bump frequency by 100, not by 1 */
   long newFrequency = vfoDial.read();
   if(newFrequency != oldFrequency) {
     if(newFrequency < FREQ_MIN)
@@ -49,6 +55,7 @@ void loop() {
     Serial.println(digitalRead(RADIO_TX));
     digitalWrite(LED_BUILTIN, !digitalRead(RADIO_TX));
     sendFrequency(newFrequency);
+    displayFrequency(newFrequency);
     oldFrequency = newFrequency;
   }
 }
@@ -74,4 +81,12 @@ void sendFrequency(double frequency) {
   }
   transfer_byte(0x000);   // Final control byte, all 0 for 9850 chip
   pulseHigh(FQ_UD);  // Done!  Should see output
+}
+
+void displayFrequency(long freq)
+{
+    lcd.setCursor(0, 0);
+    lcd.print("Freq:");
+    lcd.setCursor(6,0);
+    lcd.print(String(freq / 1000));
 }
