@@ -59,9 +59,9 @@ void loop() {
     Serial.print(frequency);
     Serial.print("), TX=");  
     Serial.println(digitalRead(RADIO_TX));
-//    digitalWrite(LED_BUILTIN, !digitalRead(RADIO_TX));
-//    sendFrequency(newFrequency);
-//    displayFrequency(newFrequency);
+    digitalWrite(LED_BUILTIN, !digitalRead(RADIO_TX));
+    sendFrequency(frequency);
+    displayFrequency(frequency);
     oldValue = newValue;
   }
 }
