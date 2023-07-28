@@ -3,8 +3,8 @@
 #define DATA      10      /* Pin 10 - connect to serial data load pin (DATA) */
 #define RESET     11      /* Pin 11 - connect to reset pin (RST). */
 #define RADIO_TX  12      /* Pin 12 - transmitter frequency command */
-#define ENC_CW    5
-#define ENC_ACW   6
+#define ENC_CW    6
+#define ENC_ACW   7
 /*
  * Do not use:
  * A4 - (SDA)

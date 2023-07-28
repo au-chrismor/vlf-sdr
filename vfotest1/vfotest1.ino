@@ -12,7 +12,8 @@
 #include <Encoder.h>
 #include <LiquidCrystal_I2C.h>
 
-long oldFrequency  = 0;
+long oldValue  = 0;
+long frequency = FREQ_MIN;
 Encoder vfoDial(ENC_CW, ENC_ACW);
 LiquidCrystal_I2C lcd(LCD_ADDR, LCD_COLS, LCD_ROWS);
 
@@ -39,24 +40,29 @@ void setup() {
                       */
   lcd.init();
   lcd.backlight();
+  vfoDial.read();   /* Start up the encoder */
 }
 
 void loop() {
   /* This is a problem for now.  Need to bump frequency by 100, not by 1 */
-  long newFrequency = vfoDial.read();
-  if(newFrequency != oldFrequency) {
-    if(newFrequency < FREQ_MIN)
-      newFrequency = FREQ_MIN;
-    if(newFrequency > FREQ_MAX)
-      newFrequency = FREQ_MAX;
+  long newValue = vfoDial.read();
+  if(newValue != oldValue) {
+    if(oldValue > newValue)
+      frequency -= 10;
+    else
+      frequency += 10;
+    if(frequency > FREQ_MAX)
+      frequency = FREQ_MAX;
+    if(frequency < FREQ_MIN)
+      frequency = FREQ_MIN;
     Serial.print("Send AD9850 Command (");
-    Serial.print(newFrequency);
+    Serial.print(frequency);
     Serial.print("), TX=");  
     Serial.println(digitalRead(RADIO_TX));
-    digitalWrite(LED_BUILTIN, !digitalRead(RADIO_TX));
-    sendFrequency(newFrequency);
-    displayFrequency(newFrequency);
-    oldFrequency = newFrequency;
+//    digitalWrite(LED_BUILTIN, !digitalRead(RADIO_TX));
+//    sendFrequency(newFrequency);
+//    displayFrequency(newFrequency);
+    oldValue = newValue;
   }
 }
  
