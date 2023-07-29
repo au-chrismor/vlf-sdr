@@ -48,9 +48,9 @@ void loop() {
   long newValue = vfoDial.read();
   if(newValue != oldValue) {
     if(oldValue > newValue)
-      frequency -= 10;
+      frequency -= 5;
     else
-      frequency += 10;
+      frequency += 5;
     if(frequency > FREQ_MAX)
       frequency = FREQ_MAX;
     if(frequency < FREQ_MIN)
