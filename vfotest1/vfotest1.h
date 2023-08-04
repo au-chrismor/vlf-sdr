@@ -18,5 +18,7 @@
 #define LCD_ROWS  4
 #define LCD_COLS  20
 #define LCD_ADDR  0x3F
+
+#define SW_VERSION "0.1.0"
  
 #define pulseHigh(pin) {digitalWrite(pin, HIGH); digitalWrite(pin, LOW); }

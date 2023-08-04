@@ -22,12 +22,15 @@ LiquidCrystal_I2C lcd(LCD_ADDR, LCD_COLS, LCD_ROWS);
  */
 void setup() {
   lcd.init();
+  lcd.clear();
   lcd.backlight();
   Serial.begin(9600);
   // configure arduino data pins for output
   Serial.println("Hardware Setup");
   lcd.setCursor(0, 0);
-  lcd.print("Startup");
+  lcd.print("Startup Ver:");
+  lcd.setCursor(13, 0);
+  lcd.print(SW_VERSION);
   pinMode(FQ_UD, OUTPUT);
   pinMode(W_CLK, OUTPUT);
   pinMode(DATA, OUTPUT);
@@ -43,8 +46,7 @@ void setup() {
                       * this pulse enables serial mode - Datasheet page 12 figure 10
                       */
   vfoDial.read();   /* Start up the encoder */
-  lcd.setCursor(0, 0);
-  lcd.print("                   ");
+  lcd.clear();
   displayFrequency(frequency);
 }
 
@@ -100,7 +102,6 @@ void displayFrequency(long freq)
     lcd.setCursor(0, 0);
     lcd.print("VFO1:");
     lcd.setCursor(6, 0);
-//    lcd.print(String((float)freq/1000));
     lcd.print((float)freq/1000);
     lcd.setCursor(13, 0);
     lcd.print("KHz");
