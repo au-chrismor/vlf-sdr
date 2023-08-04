@@ -21,9 +21,16 @@ LiquidCrystal_I2C lcd(LCD_ADDR, LCD_COLS, LCD_ROWS);
  * Standard Arduino Statup
  */
 void setup() {
+  lcd.init();
+  lcd.clear();
+  lcd.backlight();
   Serial.begin(9600);
   // configure arduino data pins for output
   Serial.println("Hardware Setup");
+  lcd.setCursor(0, 0);
+  lcd.print("Startup Ver:");
+  lcd.setCursor(13, 0);
+  lcd.print(SW_VERSION);
   pinMode(FQ_UD, OUTPUT);
   pinMode(W_CLK, OUTPUT);
   pinMode(DATA, OUTPUT);
@@ -38,9 +45,9 @@ void setup() {
   pulseHigh(FQ_UD);  /*
                       * this pulse enables serial mode - Datasheet page 12 figure 10
                       */
-  lcd.init();
-  lcd.backlight();
   vfoDial.read();   /* Start up the encoder */
+  lcd.clear();
+  displayFrequency(frequency);
 }
 
 void loop() {
@@ -48,9 +55,9 @@ void loop() {
   long newValue = vfoDial.read();
   if(newValue != oldValue) {
     if(oldValue > newValue)
-      frequency -= 10;
+      frequency -= 5;
     else
-      frequency += 10;
+      frequency += 5;
     if(frequency > FREQ_MAX)
       frequency = FREQ_MAX;
     if(frequency < FREQ_MIN)
@@ -64,6 +71,7 @@ void loop() {
     displayFrequency(frequency);
     oldValue = newValue;
   }
+  displayTx();
 }
  
 /*
@@ -92,7 +100,20 @@ void sendFrequency(double frequency) {
 void displayFrequency(long freq)
 {
     lcd.setCursor(0, 0);
-    lcd.print("Freq:");
-    lcd.setCursor(6,0);
-    lcd.print(String(freq / 1000));
+    lcd.print("VFO1:");
+    lcd.setCursor(6, 0);
+    lcd.print((float)freq/1000);
+    lcd.setCursor(13, 0);
+    lcd.print("KHz");
+}
+
+void displayTx() {
+    lcd.setCursor(0, 3);
+    if(!digitalRead(RADIO_TX)) {
+      lcd.print("TX");
+    }
+    else {
+      lcd.print("RX");  
+    }
+
 }
