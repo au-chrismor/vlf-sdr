@@ -20,6 +20,7 @@
 long oldValue  = 0;
 long frequency = FREQ_MIN;
 uint16_t temperature;
+uint16_t oldTx = LOW;
 
 Encoder vfoDial(ENC_CW, ENC_ACW);
 LiquidCrystal_I2C lcd(LCD_ADDR, LCD_COLS, LCD_ROWS);
@@ -60,6 +61,7 @@ void setup() {
 #ifdef _DEBUG
   Serial.println("Encoder Startup");
 #endif
+  oldTx = digitalRead(RADIO_TX);
   vfoDial.read();   /* Start up the encoder */
   lcd.clear();
   displayFrequency(frequency);
@@ -67,7 +69,8 @@ void setup() {
 
 void loop() {
   long newValue = vfoDial.read();
-  if(newValue != oldValue) {
+  if((newValue != oldValue) || (oldTx != digitalRead(RADIO_TX))) {
+    oldTx = digitalRead(RADIO_TX);
     if(oldValue > newValue)
       frequency -= 5;
     else
