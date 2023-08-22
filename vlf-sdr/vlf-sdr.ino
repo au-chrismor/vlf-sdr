@@ -49,6 +49,7 @@ void setup() {
   pinMode(RESET, OUTPUT);
   pinMode(LED_BUILTIN, OUTPUT);
   pinMode(RADIO_TX, INPUT_PULLUP);
+  pinMode(TX_RELAY, OUTPUT);
 
   // Reset the AD9850
 #ifdef _DEBUG
@@ -134,9 +135,11 @@ void displayTx() {
     lcd.setCursor(0, 3);
     if(!digitalRead(RADIO_TX)) {
       lcd.print("TX");
+      digitalWrite(TX_RELAY, HIGH);
     }
     else {
       lcd.print("RX");  
+      digitalWrite(TX_RELAY, LOW);
     }
 
 }

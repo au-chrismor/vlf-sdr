@@ -14,7 +14,7 @@
 #define _DEBUG    1
 
 /* Hardware Definitions */
-#define TBD_D2    2       /* Digital 2 */
+#define TX_RELAY  2       /* Pin 2 - Transmit Relay Control */
 #define TBD_D3    3       /* Digital 3 */
 #define TBD_D4    4       /* Digital 4 */
 #define TBD_D5    5       /* Digital 5 */
