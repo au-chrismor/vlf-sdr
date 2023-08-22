@@ -68,27 +68,31 @@ void setup() {
 }
 
 void loop() {
-  long newValue = vfoDial.read();
-  if((newValue != oldValue) || (oldTx != digitalRead(RADIO_TX))) {
+  if(oldTx == digitalRead(RADIO_TX)) {
+    long newValue = vfoDial.read();
+    if(newValue != oldValue) {
+      if(oldValue > newValue)
+        frequency -= 5;
+      else
+        frequency += 5;
+      if(frequency > FREQ_MAX)
+        frequency = FREQ_MAX;
+      if(frequency < FREQ_MIN)
+        frequency = FREQ_MIN;
+  #ifdef _DEBUG
+      Serial.print("Send AD9850 Command (");
+      Serial.print(frequency);
+      Serial.print("), TX=");  
+      Serial.println(digitalRead(RADIO_TX));
+  #endif
+      digitalWrite(LED_BUILTIN, !digitalRead(RADIO_TX));
+      sendFrequency(frequency);
+      displayFrequency(frequency);
+      oldValue = newValue;
+    }
+  }
+  else {
     oldTx = digitalRead(RADIO_TX);
-    if(oldValue > newValue)
-      frequency -= 5;
-    else
-      frequency += 5;
-    if(frequency > FREQ_MAX)
-      frequency = FREQ_MAX;
-    if(frequency < FREQ_MIN)
-      frequency = FREQ_MIN;
-#ifdef _DEBUG
-    Serial.print("Send AD9850 Command (");
-    Serial.print(frequency);
-    Serial.print("), TX=");  
-    Serial.println(digitalRead(RADIO_TX));
-#endif
-    digitalWrite(LED_BUILTIN, !digitalRead(RADIO_TX));
-    sendFrequency(frequency);
-    displayFrequency(frequency);
-    oldValue = newValue;
   }
   displayTx();
   displayTemp();
