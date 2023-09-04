@@ -18,15 +18,13 @@
 #define TBD_D3    3       /* Digital 3 */
 #define TBD_D4    4       /* Digital 4 */
 #define TBD_D5    5       /* Digital 5 */
-#define TBD_D6    6       /* Digital 6 */
-#define TBD_D7    7       /* Digital 7 */
+#define ENC_CW    6       /* Rotary Encoder Clockwise Signal */
+#define ENC_ACW   7       /* Rotary Encoder Anticlockwise Signal */
 #define W_CLK     8       /* Pin 8 - connect to AD9850 module word load clock pin (CLK) */
 #define FQ_UD     9       /* Pin 9 - connect to freq update pin (FQ) */
 #define DATA      10      /* Pin 10 - connect to serial data load pin (DATA) */
 #define RESET     11      /* Pin 11 - connect to reset pin (RST). */
 #define RADIO_TX  12      /* Pin 12 - transmitter frequency command */
-#define ENC_CW    6
-#define ENC_ACW   7
 #define TBD_A0    A0      /* Analog 0 */
 #define THERM     A1      /* Pin A1 - Thermistor input for TX temperature */
 #define TBD_A2    A2      /* Analog 2 */
